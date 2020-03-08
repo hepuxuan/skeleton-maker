@@ -1,0 +1,16 @@
+{
+  "name": "skeleton-maker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "popup.html",
+  "scripts": {
+    "start": "parcel src/index.js",
+    "build": "cp manifest.json dist/manifest.json && cp popup.html dist/popup.html && cp popup.js dist/popup.js && parcel build src/index.js --out-dir dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "draw-page-structure": "^1.0.7",
+    "parcel-bundler": "^1.12.4"
+  }
+}
