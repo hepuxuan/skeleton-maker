@@ -12,6 +12,7 @@
       .body {
         min-width: 300px;
         text-align: center;
+        font-family: monospace;
       }
       #button {
         background: rgb(255, 109, 109);
@@ -21,9 +22,23 @@
         border: none;
         color: #fff;
       }
+      .root-input-wrapper {
+        margin-bottom: 10px;
+        display: block;
+      }
+      #root-input {
+        padding: 5px 10px;
+        width: 130px;
+      }
     </style>
     <div class="body">
       <h1>Skeleton screen maker</h1>
+      <div>
+        <div class="root-input-wrapper">
+          <span>rootNode:</span>
+          <input id="root-input" />
+        </div>
+      </div>
       <button id="button">Generate</button>
     </div>
   </body>

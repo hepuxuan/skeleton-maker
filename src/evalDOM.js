@@ -1,28 +1,18 @@
-module.exports = function evalDOM() {
+module.exports = function evalDOM(agrs) {
   const ELEMENTS = [
     "audio",
     "button",
     "canvas",
     "code",
     "img",
-    "input",
     "pre",
     "svg",
-    "textarea",
     "video",
     "xmp"
   ];
   const blocks = [];
   const win_w = window.innerWidth;
   const win_h = window.innerHeight;
-
-  let agrs = arguments;
-  if (!agrs.length) agrs = { length: 1, 0: {} };
-  let agrs0 = agrs[0];
-
-  if (agrs.length !== 1 || getArgtype(agrs0) !== "object") {
-    agrs = parseAgrs([...agrs]);
-  }
 
   const classProps = {
     position: "fixed",
@@ -41,7 +31,7 @@ module.exports = function evalDOM() {
     top,
     left,
     zIndex = 999,
-    background = agrs.background,
+    background = "#f2f2f2",
     radius,
     subClas
   } = {}) {
@@ -169,10 +159,10 @@ module.exports = function evalDOM() {
 
   function getPadding(node) {
     return {
-      paddingTop: parseInt(getStyle(node, "paddingTop")),
-      paddingLeft: parseInt(getStyle(node, "paddingLeft")),
-      paddingBottom: parseInt(getStyle(node, "paddingBottom")),
-      paddingRight: parseInt(getStyle(node, "paddingRight"))
+      paddingTop: parseInt(getStyle(node, "paddingTop")) + 1,
+      paddingLeft: parseInt(getStyle(node, "paddingLeft")) + 1,
+      paddingBottom: parseInt(getStyle(node, "paddingBottom")) + 1,
+      paddingRight: parseInt(getStyle(node, "paddingRight")) + 1
     };
   }
 
@@ -186,23 +176,6 @@ module.exports = function evalDOM() {
     inlineStyle.push("}.__{top:0%;left:0%;width:100%;}</style>");
     blocks.push(inlineStyle.join(""));
   }
-
-  function parseAgrs(agrs = []) {
-    let params = {};
-    agrs.forEach(agr => {
-      const sep = agr.indexOf(":");
-      const [appName, name, type] = agr.slice(0, sep).split("-");
-      const val = agr.slice(sep + 1);
-      params[name] =
-        type === "function"
-          ? eval("(" + val + ")")
-          : type === "object"
-          ? JSON.parse(val)
-          : val;
-    });
-    return params;
-  }
-
   function DrawPageframe(opts) {
     this.rootNode = getRootNode(opts.rootNode) || document.body;
     this.offsetTop = opts.offsetTop || 0;

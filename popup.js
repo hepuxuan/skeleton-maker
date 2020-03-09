@@ -5,9 +5,34 @@ document.addEventListener(
     button.addEventListener(
       "click",
       function() {
-        chrome.tabs.executeScript({
-          file: "index.js"
-        });
+        const rootNode = document.getElementById("root-input").value;
+        console.log({ rootNode });
+        chrome.tabs.query(
+          {
+            currentWindow: true,
+            active: true
+          },
+          tabs => {
+            for (let tab of tabs) {
+              chrome.tabs.executeScript(
+                tab.id,
+                {
+                  file: "index.js"
+                },
+                function() {
+                  chrome.tabs.sendMessage(tab.id, {
+                    code: "DRAW_SKELETON",
+                    params: {
+                      background: "#f2f2f2",
+                      animation: "opacity 1s linear infinite;",
+                      rootNode
+                    }
+                  });
+                }
+              );
+            }
+          }
+        );
       },
       false
     );

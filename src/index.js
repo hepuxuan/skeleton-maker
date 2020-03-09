@@ -9,15 +9,18 @@ const copyToClipboard = str => {
   document.body.removeChild(el);
 };
 
-createSkeletonHTML({
-  background: "#f2f2f2",
-  animation: "opacity 1s linear infinite;"
-})
-  .then(skeletonHTML => {
-    console.log(skeletonHTML);
-    copyToClipboard(skeletonHTML);
-    alert("copied to clipboard");
-  })
-  .catch(e => {
-    console.error(e);
-  });
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  // Handle message.
+  // In this example, message === 'whatever value; String, object, whatever'
+  if (message.code === "DRAW_SKELETON") {
+    createSkeletonHTML(message.params)
+      .then(skeletonHTML => {
+        console.log(skeletonHTML);
+        copyToClipboard(skeletonHTML);
+        alert("copied to clipboard");
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  }
+});
